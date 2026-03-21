@@ -1,6 +1,6 @@
 package org.example;
 
-public class ContaCorrente extends Conta {
+public class ContaCorrente extends Conta implements Tributavel{
     private double limite;
     public ContaCorrente(int numero, String titular){
         super(numero, titular);
@@ -14,6 +14,11 @@ public class ContaCorrente extends Conta {
         }
         return false;
     }
+    @Override
+    public double CalcularTributo(){
+        return this.saldo * 0.01; //1% de imposto
+    }
+
     public double getLimite(){
         return limite;
     }

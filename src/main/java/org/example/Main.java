@@ -3,10 +3,9 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
-
     static Banco banco = new Banco();
     static Scanner scanner = new Scanner(System.in);
-
+    static Gerente gerente = new Gerente( "admin", "1234");
     public static void main(String[] args) {
 
         int opcao;
@@ -20,6 +19,8 @@ public class Main {
             System.out.println("4 - Sacar");
             System.out.println("5 - Transferir");
             System.out.println("6 - Consultar saldo");
+            System.out.println("7 - Calcular tributos");
+            System.out.println("8 - Autenticar gerente");
             System.out.println("0 - Sair");
 
             System.out.print("Escolha uma opção: ");
@@ -50,7 +51,29 @@ public class Main {
                 case 6:
                     consultarSaldo();
                     break;
+                case 7:
+                    CalculadoraDeImposto calc =  new CalculadoraDeImposto();
 
+                    for (Conta c : banco.getContas()){
+                        if (c instanceof Tributavel){
+                            calc.registrar((Tributavel) c);
+                        }
+                    }
+                    System.out.println("Total de impostos: " + calc.getTotalImposto());
+                    break;
+                case 8:
+                    System.out.println("Login do Gerente: ");
+                    String Nome = scanner.next();
+
+                    System.out.println("Senha do Gerente: ");
+                    String senha = scanner.next();
+
+                    if (gerente.autenticar(Nome, senha)) {
+                        System.out.println("Acesso liberado");
+                    } else {
+                        System.out.println("Login ou senha incorretos");
+                    }
+                    break;
             }
 
         } while (opcao != 0);
@@ -69,8 +92,8 @@ public class Main {
         };
 
         System.out.println("Tipo de conta:");
-        System.out.println("1 - Corrente");
-        System.out.println("2 - Poupança");
+        System.out.println("1 - Poupança");
+        System.out.println("2 - Corrente");
 
         int tipo = scanner.nextInt();
         if (tipo != 1 && tipo != 2){
@@ -150,6 +173,7 @@ public class Main {
                 System.out.println("valor invalido.");
                 return;
             };
+
 
             contaOrigem.transferir(contaDestino, valor);
 

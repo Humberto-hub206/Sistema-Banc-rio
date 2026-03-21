@@ -46,4 +46,8 @@ public class Banco {
             }
         } return null;
     }
+
+    public ArrayList<Conta> getContas() {
+        return contas;
+    }
 }
